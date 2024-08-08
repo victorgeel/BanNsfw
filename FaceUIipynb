@@ -1,0 +1,160 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "gpuType": "T4",
+      "authorship_tag": "ABX9TyNmGDm1KaajL4gWMLYV94Bp",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    },
+    "accelerator": "GPU"
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/victorgeel/BanNsfw/blob/main/FaceUIipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!git lfs install\n",
+        "!git clone https://huggingface.co/spaces/victorisgeek/SwapUI"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "PtrOdLXoMBS0",
+        "outputId": "d4713b99-1771-4521-f109-51056c63a0e1"
+      },
+      "execution_count": 1,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Git LFS initialized.\n",
+            "Cloning into 'SwapUI'...\n",
+            "remote: Enumerating objects: 65, done.\u001b[K\n",
+            "remote: Counting objects: 100% (61/61), done.\u001b[K\n",
+            "remote: Compressing objects: 100% (61/61), done.\u001b[K\n",
+            "remote: Total 65 (delta 33), reused 0 (delta 0), pack-reused 4 (from 1)\u001b[K\n",
+            "Unpacking objects: 100% (65/65), 26.99 KiB | 251.00 KiB/s, done.\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "%cd /content/SwapUI\n",
+        "!pip install -r /content/SwapUI/requirements.txt"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "lRQGoNAZMOE9",
+        "outputId": "ede6afc7-effc-4881-f200-87e5f8555ff0"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "/content/SwapUI\n",
+            "Looking in indexes: https://pypi.org/simple, https://download.pytorch.org/whl/cu118\n",
+            "Ignoring onnxruntime: markers 'python_version != \"3.9\" and sys_platform == \"darwin\" and platform_machine != \"arm64\"' don't match your environment\n",
+            "Ignoring onnxruntime-coreml: markers 'python_version == \"3.9\" and sys_platform == \"darwin\" and platform_machine != \"arm64\"' don't match your environment\n",
+            "Ignoring onnxruntime-silicon: markers 'sys_platform == \"darwin\" and platform_machine == \"arm64\"' don't match your environment\n",
+            "Collecting gfpgan==1.3.8 (from -r /content/SwapUI/requirements.txt (line 3))\n",
+            "  Downloading gfpgan-1.3.8-py3-none-any.whl.metadata (12 kB)\n",
+            "Collecting gradio==3.40.1 (from -r /content/SwapUI/requirements.txt (line 4))\n",
+            "  Downloading gradio-3.40.1-py3-none-any.whl.metadata (17 kB)\n",
+            "Collecting insightface==0.7.3 (from -r /content/SwapUI/requirements.txt (line 5))\n",
+            "  Downloading insightface-0.7.3.tar.gz (439 kB)\n",
+            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m439.5/439.5 kB\u001b[0m \u001b[31m23.4 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25h  Installing build dependencies ... \u001b[?25l\u001b[?25hdone\n",
+            "  Getting requirements to build wheel ... \u001b[?25l\u001b[?25hdone\n",
+            "  Preparing metadata (pyproject.toml) ... \u001b[?25l\u001b[?25hdone\n",
+            "Requirement already satisfied: moviepy>=1.0.3 in /usr/local/lib/python3.10/dist-packages (from -r /content/SwapUI/requirements.txt (line 6)) (1.0.3)\n",
+            "Collecting numpy==1.24.3 (from -r /content/SwapUI/requirements.txt (line 7))\n",
+            "  Downloading numpy-1.24.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.6 kB)\n",
+            "Collecting onnx==1.14.0 (from -r /content/SwapUI/requirements.txt (line 8))\n",
+            "  Downloading onnx-1.14.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (15 kB)\n",
+            "Collecting onnxruntime-gpu==1.15.1 (from -r /content/SwapUI/requirements.txt (line 11))\n",
+            "  Downloading onnxruntime_gpu-1.15.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.0 kB)\n",
+            "Collecting opencv-python==4.8.0.74 (from -r /content/SwapUI/requirements.txt (line 13))\n",
+            "  Downloading opencv_python-4.8.0.74-cp37-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (19 kB)\n",
+            "Collecting opennsfw2==0.10.2 (from -r /content/SwapUI/requirements.txt (line 14))\n",
+            "  Downloading opennsfw2-0.10.2-py3-none-any.whl.metadata (11 kB)\n",
+            "Collecting pillow==10.0.0 (from -r /content/SwapUI/requirements.txt (line 15))\n",
+            "  Downloading Pillow-10.0.0-cp310-cp310-manylinux_2_28_x86_64.whl.metadata (9.5 kB)\n",
+            "Collecting protobuf==4.23.4 (from -r /content/SwapUI/requirements.txt (line 16))\n",
+            "  Downloading protobuf-4.23.4-cp37-abi3-manylinux2014_x86_64.whl.metadata (540 bytes)\n",
+            "Requirement already satisfied: psutil==5.9.5 in /usr/local/lib/python3.10/dist-packages (from -r /content/SwapUI/requirements.txt (line 17)) (5.9.5)\n",
+            "Collecting realesrgan==0.3.0 (from -r /content/SwapUI/requirements.txt (line 18))\n",
+            "  Downloading realesrgan-0.3.0-py3-none-any.whl.metadata (17 kB)\n",
+            "Collecting tensorflow==2.13.0 (from -r /content/SwapUI/requirements.txt (line 19))\n",
+            "  Downloading tensorflow-2.13.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (3.4 kB)\n",
+            "Collecting tqdm==4.65.0 (from -r /content/SwapUI/requirements.txt (line 20))\n",
+            "  Downloading tqdm-4.65.0-py3-none-any.whl.metadata (56 kB)\n",
+            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m57.0/57.0 kB\u001b[0m \u001b[31m4.8 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hCollecting basicsr>=1.4.2 (from gfpgan==1.3.8->-r /content/SwapUI/requirements.txt (line 3))\n",
+            "  Downloading basicsr-1.4.2.tar.gz (172 kB)\n",
+            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m172.5/172.5 kB\u001b[0m \u001b[31m16.2 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25h"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "# - Option 2: Running with Ngrok - #\n",
+        "\n",
+        "Ngrok_token = \"2kMjyrcbPuUtW6TuKQ5PumZnPsU_F5Y6P7e1AM9oqa8ru8vB\" #@param {type:\"string\"}\n",
+        "# Put your ngrok token here (obtainable from https://ngrok.com)\n",
+        "\n",
+        "Ngrok_domain = \"probable-amoeba-flowing.ngrok-free.app\" # optional, leave empty if you don't have a domain\n",
+        "\n",
+        "# -------------------------------- #\n",
+        "\n",
+        "!pip install pyngrok\n",
+        "\n",
+        "from pyngrok import ngrok, conf\n",
+        "import fileinput\n",
+        "import sys\n",
+        "\n",
+        "if Ngrok_token!=\"\":\n",
+        "  ngrok.kill()\n",
+        "  srv=ngrok.connect(7860 , pyngrok_config=conf.PyngrokConfig(auth_token=Ngrok_token),\n",
+        "                    bind_tls=True, domain=Ngrok_domain).public_url\n",
+        "  print(srv)\n",
+        "  get_ipython().system(\"python app.py\")\n",
+        "else:\n",
+        "  print('An ngrok token is required. You can get one on https://ngrok.com and paste it into the ngrok_token field.')"
+      ],
+      "metadata": {
+        "id": "Kwcvc4vEM6lF"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
